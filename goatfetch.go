@@ -25,12 +25,8 @@ func main() {
 	kernel := getKernel()
 	osName := getOSName()
 	arch := runtime.GOARCH
-
-	// Calculate underline length
 	userHost := user + "@" + host
 	userHostLen := len(userHost)
-
-	// Header with centered formatting
 	fmt.Println()
 	fmt.Printf("%s%s%s%s@%s%s%s\n", 
 		strings.Repeat(" ", 19), bold+green, user, reset,
@@ -40,13 +36,11 @@ func main() {
 		strings.Repeat("-", userHostLen),
 		strings.Repeat(" ", 2))
 
-	// System information with aligned formatting
 	fmt.Printf("  %s(_(%s             %sOS:%s %s\n", bold, reset, cyan, reset, osName)
 	fmt.Printf("  %s/_/'______/)%s    %sKernel:%s %s\n", bold, reset, cyan, reset, kernel)
 	fmt.Printf("  %s\"  |      |%s     %sShell:%s %s\n", bold, reset, cyan, reset, shell)
 	fmt.Printf("  %s   |\"\"\"\"\"\"|%s     %sArch:%s %s\n", bold, reset, cyan, reset, arch)
 
-	// Color blocks
 	printColorBlocks()
 }
 
@@ -70,7 +64,6 @@ func getHostname() string {
 		return strings.Split(host, ".")[0]
 	}
 	
-	// Fallback for Windows
 	if runtime.GOOS == "windows" {
 		cmd := exec.Command("hostname")
 		output, err := cmd.Output()
@@ -105,7 +98,6 @@ func getKernel() string {
 		output, err := cmd.Output()
 		if err == nil {
 			ver := strings.TrimSpace(string(output))
-			// Clean up Windows version output
 			ver = strings.TrimPrefix(ver, "Microsoft Windows [Version ")
 			ver = strings.TrimSuffix(ver, "]")
 			return ver
@@ -115,7 +107,6 @@ func getKernel() string {
 }
 
 func getOSName() string {
-	// Try Linux/BSD release files
 	osFiles := []string{
 		"/etc/os-release",
 		"/usr/lib/os-release",
@@ -129,7 +120,6 @@ func getOSName() string {
 		}
 	}
 
-	// macOS detection
 	if runtime.GOOS == "darwin" {
 		cmd := exec.Command("sw_vers", "-productName")
 		output, err := cmd.Output()
@@ -144,7 +134,6 @@ func getOSName() string {
 		}
 	}
 
-	// Windows WSL detection
 	if wsl := os.Getenv("WSL_DISTRO_NAME"); wsl != "" {
 		return "WSL: " + wsl
 	}
@@ -187,14 +176,12 @@ func parseOSRelease(filename string) string {
 }
 
 func printColorBlocks() {
-	// Regular colors
 	fmt.Print(strings.Repeat(" ", 19))
 	for i := 30; i <= 37; i++ {
 		fmt.Printf("\033[%dm%s", i, colorBlock)
 	}
 	fmt.Println()
 
-	// Bright colors
 	fmt.Print(strings.Repeat(" ", 19))
 	for i := 90; i <= 97; i++ {
 		fmt.Printf("\033[%dm%s", i, colorBlock)
