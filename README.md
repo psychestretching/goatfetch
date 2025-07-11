@@ -6,7 +6,7 @@ tiny sys fetch for linux in written in go(at)
 # compile and run
 ensure you have `git` and `go` installed 
 ```
-git clone https://github.com/ntscpal/goatfetch.git
+git clone https://github.com/psychestretching/goatfetch.git
 cd goatfetch
 go build goatfetch.go
 chmod +x goatfetch
